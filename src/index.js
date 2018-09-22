@@ -21,3 +21,13 @@ class Display extends React.Component{
 		)
 	}
 }
+
+class App extends React.Component{
+	render(){
+		return (
+			<div id="break-label">Break Length</div>
+
+			<div id="session-label">Session Length</div>
+		)
+	}
+}
