@@ -8,3 +8,31 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
+
+
+.app{
+	height: 500px;
+	width: 500px;
+	perspective:  0 200px;
+	background: #EBEBEB;
+	position: relative;
+}
+
+.button{
+	background: #cad2c5;
+	box-sizing: border-box;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	width: 10%;
+	font-size: 24px;
+	color: rgba(0, 0, 0, 0.5);
+	height: 20%;
+	min-width: 25%;
+	text-align: center;
+	margin: 16px;
+}
+
+.set-time-section{
+	display: flex;
+	margin: 32px;
+}
