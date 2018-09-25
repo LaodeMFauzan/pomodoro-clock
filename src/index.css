@@ -9,14 +9,14 @@ body {
   overflow: hidden;
 }
 
-
-
 .app{
-	height: 500px;
 	width: 500px;
+	height: 500px;
 	perspective:  0 200px;
 	background: #EBEBEB;
 	position: relative;
+	display: flex;
+	margin: auto;
 }
 
 .button{
@@ -32,7 +32,6 @@ body {
 	margin: 16px;
 }
 
-.set-time-section{
+.set-break,.set-session{
 	display: flex;
-	margin: 32px;
 }
