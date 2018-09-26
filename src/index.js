@@ -31,17 +31,23 @@ class App extends React.Component{
 		return (
 			<div className="app">
 				<div className="set-break">
-					<h2 id="break-label">Break</h2>
-					<Button id="break-increment" label="+"/>
-					<span id="break-length">5</span>
-					<Button id="break-decrement" label="-"/>
+					<ControlLabel id="session-label">Break</ControlLabel>
+					<div className="break-control">
+						<Button id="break-increment" label="+"/>
+						<ControlLabel id="break-length">5</ControlLabel>
+						<Button id="break-decrement" label="-"/>
+					</div>
 				</div>
 				<div className="set-session">
-					<h2 id="session-label">Session</h2>
-					<Button id="session-increment" label="+"/>
-					<ControlLabel id="session-label">25</ControlLabel>
-					<Button id="session-decrement" label="-"/>	
+					<ControlLabel id="session-label">Session</ControlLabel>
+					<div className="session-control">
+						<Button id="session-increment" label="+"/>
+						<ControlLabel id="session-length">25</ControlLabel>
+						<Button id="session-decrement" label="-"/>	
+					</div>
 				</div>
+
+				<Display />
 			</div>
 		)
 	}
