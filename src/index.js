@@ -23,7 +23,7 @@ class Display extends React.Component{
 			<div className="display-clock">
 				<ControlLabel id="timer-label">Timer</ControlLabel>
 				<div className="trigger-control">
-					<Button id= "start-stop" label="Start"/>
+					<Button id= "start_stop" label="Start"/>
 					<ControlLabel id="time-left">25:00</ControlLabel>
 					<Button id= "reset" label="Reset"/>
 				</div>
