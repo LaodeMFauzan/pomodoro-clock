@@ -7,6 +7,7 @@ class Button extends React.Component{
 	render(){
 		return (
 			<div
+				id = {this.props.id}
 				onClick = {this.props.onClick}
 				data-value = {this.props.label}
 				className = "button">
@@ -19,8 +20,13 @@ class Button extends React.Component{
 class Display extends React.Component{
 	render(){
 		return (
-			<div>
-				
+			<div className="display-clock">
+				<ControlLabel id="timer-label">Timer</ControlLabel>
+				<div className="trigger-control">
+					<Button id= "start-stop" label="Start"/>
+					<ControlLabel id="time-left">25:00</ControlLabel>
+					<Button id= "reset" label="Reset"/>
+				</div>
 			</div>
 		)
 	}
@@ -30,23 +36,24 @@ class App extends React.Component{
 	render(){
 		return (
 			<div className="app">
-				<div className="set-break">
-					<ControlLabel id="session-label">Break</ControlLabel>
-					<div className="break-control">
-						<Button id="break-increment" label="+"/>
-						<ControlLabel id="break-length">5</ControlLabel>
-						<Button id="break-decrement" label="-"/>
+				<div className="setting-section">
+					<div className="set-break">
+						<ControlLabel id="session-label">Break</ControlLabel>
+						<div className="break-control">
+							<Button id="break-increment" label="+"/>
+							<ControlLabel id="break-length">5</ControlLabel>
+							<Button id="break-decrement" label="-"/>
+						</div>
+					</div>
+					<div className="set-session">
+						<ControlLabel id="session-label">Session</ControlLabel>
+						<div className="session-control">
+							<Button id="session-increment" label="+"/>
+							<ControlLabel id="session-length">25</ControlLabel>
+							<Button id="session-decrement" label="-"/>	
+						</div>
 					</div>
 				</div>
-				<div className="set-session">
-					<ControlLabel id="session-label">Session</ControlLabel>
-					<div className="session-control">
-						<Button id="session-increment" label="+"/>
-						<ControlLabel id="session-length">25</ControlLabel>
-						<Button id="session-decrement" label="-"/>	
-					</div>
-				</div>
-
 				<Display />
 			</div>
 		)

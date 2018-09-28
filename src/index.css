@@ -11,10 +11,11 @@ body {
 
 .app{
 	width: 500px;
-	height: 500px;
+	height: 300px;
 	padding: 24px;
 	background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
 	display: flex;
+	flex-direction: column;
 	justify-content: space-around;
 	margin: auto;
 }
@@ -32,7 +33,12 @@ body {
 	margin-left : 24px;
 }
 
-.set-break,.set-session{
+.setting-section{
+	display: flex;
+	text-align: center;
+}
+
+.set-break, .set-session{
 	margin: 0 16px auto;
 	text-align: center;
 }
@@ -40,14 +46,25 @@ body {
 .session-control,.break-control{
 	display: flex;
 	padding: 16px;
-	margin: 0 16px auto;
+	margin-left: 8px;
 }
 
-#break-length,#session-length{
+#break-length,#session-length, #time-left{
 	font-size: 20px;
 }
 
-#session-label,#break-label{
+#session-label,#break-label,#timer-label{
 	margin-left:24px;
 	font-size: 24px;
+}
+
+.display-clock{
+	text-align: center;
+	margin: auto;
+}
+
+.trigger-control{
+	display: flex;
+	padding: 16px;
+	margin-right: 24px;
 }
