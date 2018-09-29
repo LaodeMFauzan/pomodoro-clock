@@ -65,6 +65,7 @@ body {
 
 #break-length,#session-length, #time-left{
 	font-size: 20px;
+	margin-right: 4px;
 }
 
 #session-label,#break-label,#timer-label{

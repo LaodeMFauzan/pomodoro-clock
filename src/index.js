@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel'
 
-class Button extends React.Component{
+class Button extends Component{
 	render(){
 		return (
 			<div
 				id = {this.props.id}
 				onClick = {this.props.onClick}
-				data-value = {this.props.label}
+				label = {this.props.label}
 				className = "button">
 				{this.props.label}	
 			</div>
@@ -17,7 +17,7 @@ class Button extends React.Component{
 	}
 }
 
-class Display extends React.Component{
+class Display extends Component{
 	render(){
 		return (
 			<div className="display-clock">
@@ -32,7 +32,48 @@ class Display extends React.Component{
 	}
 }
 
-class App extends React.Component{
+class App extends Component{
+
+	constructor(){
+		super();
+		this.state = {
+			break: 5,
+			session: 25
+		}
+	}
+
+	handleClick = e =>{
+		const value = e.target.getAttribute('id');
+		let break_time,session_time;
+		switch(value){
+			case 'break-increment':
+				break_time = Object.assign(this.state.break)+1;
+				this.setState({
+					break: break_time,
+				})
+				break;
+			case 'break-decrement':
+				break_time = Object.assign(this.state.break)-1;
+				this.setState({
+					break: break_time,
+				})
+				break;
+			case 'session-increment':
+				session_time = Object.assign(this.state.session)+1;
+				this.setState({
+					session: session_time,
+				})
+				break;
+			case 'session-decrement':
+				session_time = Object.assign(this.state.session)-1;
+				this.setState({
+					session: session_time,
+				})
+				break;
+			default : return;
+		}
+	}
+
 	render(){
 		return (
 			<div className="app">
@@ -40,17 +81,17 @@ class App extends React.Component{
 					<div className="set-break">
 						<ControlLabel id="session-label">Break</ControlLabel>
 						<div className="break-control">
-							<Button id="break-increment" label="+"/>
-							<ControlLabel id="break-length">5</ControlLabel>
-							<Button id="break-decrement" label="-"/>
+							<Button  onClick={this.handleClick} id="break-increment" label="+"/>
+							<ControlLabel id="break-length">{this.state.break}</ControlLabel>
+							<Button onClick={this.handleClick} id="break-decrement" label="-"/>
 						</div>
 					</div>
 					<div className="set-session">
 						<ControlLabel id="session-label">Session</ControlLabel>
 						<div className="session-control">
-							<Button id="session-increment" label="+"/>
-							<ControlLabel id="session-length">25</ControlLabel>
-							<Button id="session-decrement" label="-"/>	
+							<Button onClick={this.handleClick} id="session-increment" label="+"/>
+							<ControlLabel id="session-length">{this.state.session}</ControlLabel>
+							<Button onClick={this.handleClick} id="session-decrement" label="-"/>	
 						</div>
 					</div>
 				</div>
