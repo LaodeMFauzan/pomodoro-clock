@@ -17,61 +17,103 @@ class Button extends Component{
 	}
 }
 
-class Display extends Component{
-	render(){
-		return (
-			<div className="display-clock">
-				<ControlLabel id="timer-label">Timer</ControlLabel>
-				<div className="trigger-control">
-					<Button id= "start_stop" label="Start"/>
-					<ControlLabel id="time-left">25:00</ControlLabel>
-					<Button id= "reset" label="Reset"/>
-				</div>
-			</div>
-		)
-	}
-}
-
 class App extends Component{
 
 	constructor(){
 		super();
 		this.state = {
 			break: 5,
-			session: 25
+			session: 25,
+			is_start: 'Start',
+			total_count: 1500
 		}
+
+		this.handleClick = this.handleClick.bind(this);
+		this.resetTimer = this.resetTimer.bind(this);
 	}
 
 	handleClick = e =>{
 		const value = e.target.getAttribute('id');
-		let break_time,session_time;
+		let break_time,session_time,start_state,temp_count;
 		switch(value){
 			case 'break-increment':
 				break_time = Object.assign(this.state.break)+1;
+				if(break_time > 60 ){
+					return;	
+				} 
 				this.setState({
 					break: break_time,
 				})
 				break;
+
 			case 'break-decrement':
 				break_time = Object.assign(this.state.break)-1;
+				if(break_time === 0 ){
+					return;	
+				} 
 				this.setState({
 					break: break_time,
 				})
 				break;
+
 			case 'session-increment':
 				session_time = Object.assign(this.state.session)+1;
+				temp_count = Object.assign(this.state.total_count)+60;
+				if(session_time > 60 ){
+					return;	
+				} 
 				this.setState({
 					session: session_time,
+					total_count: temp_count,
 				})
 				break;
+
 			case 'session-decrement':
 				session_time = Object.assign(this.state.session)-1;
+				temp_count = Object.assign(this.state.total_count)-60;
+				if(session_time === 0 ){
+					return;
+				}
 				this.setState({
 					session: session_time,
+					total_count: temp_count,
+				})
+				break;
+
+			case 'start_stop':
+				start_state = Object.assign(this.state.is_start);
+				if (this.state.is_start === 'Start') {
+					start_state = 'Pause';
+				} else {
+					start_state = 'Start';	
+				}
+				this.setState({
+					is_start : start_state,
 				})
 				break;
 			default : return;
 		}
+	}
+
+	resetTimer = () => {
+		this.setState({
+			break: 5,
+			session: 25,
+			is_start: 'Start',
+			total_count: 1500,
+		})
+	}
+
+	formatClock = (total) => {
+		let seconds = total % 60;
+		let minutes = Math.floor(total / 60);
+		if(seconds < 10){
+			seconds = '0' + seconds;
+		}
+		if(minutes < 10){
+			minutes = '0' + minutes
+		}
+		return minutes + ':'+seconds;
 	}
 
 	render(){
@@ -79,23 +121,30 @@ class App extends Component{
 			<div className="app">
 				<div className="setting-section">
 					<div className="set-break">
-						<ControlLabel id="session-label">Break</ControlLabel>
+						<ControlLabel id="break-label">Break</ControlLabel>
 						<div className="break-control">
-							<Button  onClick={this.handleClick} id="break-increment" label="+"/>
+							<Button  onClick = {this.handleClick} id="break-increment" label="+"/>
 							<ControlLabel id="break-length">{this.state.break}</ControlLabel>
-							<Button onClick={this.handleClick} id="break-decrement" label="-"/>
+							<Button onClick = {this.handleClick} id="break-decrement" label="-"/>
 						</div>
 					</div>
 					<div className="set-session">
 						<ControlLabel id="session-label">Session</ControlLabel>
 						<div className="session-control">
-							<Button onClick={this.handleClick} id="session-increment" label="+"/>
+							<Button onClick = {this.handleClick} id="session-increment" label="+"/>
 							<ControlLabel id="session-length">{this.state.session}</ControlLabel>
-							<Button onClick={this.handleClick} id="session-decrement" label="-"/>	
+							<Button onClick = {this.handleClick} id="session-decrement" label="-"/>	
 						</div>
 					</div>
 				</div>
-				<Display />
+				<div className="display-clock">
+					<ControlLabel id="timer-label">Timer</ControlLabel>
+					<div className="trigger-control">
+						<Button onClick = {this.handleClick} id="start_stop" label={this.state.is_start}/>
+						<ControlLabel id="time-left">{this.formatClock(this.state.total_count)}</ControlLabel>
+						<Button onClick={this.resetTimer} id= "reset" label="Reset"/>
+					</div>
+				</div>
 			</div>
 		)
 	}
