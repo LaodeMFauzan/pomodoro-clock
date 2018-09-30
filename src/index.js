@@ -25,11 +25,13 @@ class App extends Component{
 			break: 5,
 			session: 25,
 			is_start: 'Start',
-			total_count: 1500
+			total_count: 1500,
+			clock_start: false,
 		}
 
 		this.handleClick = this.handleClick.bind(this);
 		this.resetTimer = this.resetTimer.bind(this);
+		this.formatClock = this.formatClock.bind(this);
 	}
 
 	handleClick = e =>{
@@ -116,6 +118,22 @@ class App extends Component{
 		return minutes + ':'+seconds;
 	}
 
+	// componentDidUpdate(prevProps, prevState) {
+	// 	if(prevState.is_start !== this.state.is_start){
+	// 		this.runningClock();
+	// 	}
+	// }
+
+	// runningClock = () => {
+	// 	while(this.state.is_start === 'Pause' && this.state.total_count > 0 ){
+	// 		let count_down = Object.assign(this.state.total_count)-1;
+	// 		console.log(count_down);
+	// 		this.setState({
+	// 			total_count : count_down,
+	// 		})	
+	// 	}
+	// }
+
 	render(){
 		return (
 			<div className="app">
@@ -129,7 +147,7 @@ class App extends Component{
 						</div>
 					</div>
 					<div className="set-session">
-						<ControlLabel id="session-label">Session</ControlLabel>
+						<ControlLabel id="session-label">Work</ControlLabel>
 						<div className="session-control">
 							<Button onClick = {this.handleClick} id="session-increment" label="+"/>
 							<ControlLabel id="session-length">{this.state.session}</ControlLabel>
