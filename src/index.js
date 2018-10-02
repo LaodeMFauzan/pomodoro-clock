@@ -32,32 +32,38 @@ class App extends Component{
 		this.handleClick = this.handleClick.bind(this);
 		this.resetTimer = this.resetTimer.bind(this);
 		this.formatClock = this.formatClock.bind(this);
+		this.handleBreak = this.handleBreak.bind(this);
 	}
 
-	handleClick = e =>{
+	handleBreak = e =>{
 		const value = e.target.getAttribute('id');
-		let break_time,session_time,start_state,temp_count;
+		let break_time;
 		switch(value){
 			case 'break-increment':
 				break_time = Object.assign(this.state.break)+1;
 				if(break_time > 60 ){
 					return;	
 				} 
-				this.setState({
-					break: break_time,
-				})
-				break;
+			break;
 
 			case 'break-decrement':
 				break_time = Object.assign(this.state.break)-1;
 				if(break_time === 0 ){
 					return;	
 				} 
-				this.setState({
-					break: break_time,
-				})
-				break;
+			break;
+			
+			default : return;
+		}
+		this.setState({
+			break: break_time,
+		})
+	}
 
+	handleClick = e =>{
+		const value = e.target.getAttribute('id');
+		let session_time,start_state,temp_count;
+		switch(value){
 			case 'session-increment':
 				session_time = Object.assign(this.state.session)+1;
 				temp_count = Object.assign(this.state.total_count)+60;
@@ -141,9 +147,9 @@ class App extends Component{
 					<div className="set-break">
 						<ControlLabel id="break-label">Break</ControlLabel>
 						<div className="break-control">
-							<Button  onClick = {this.handleClick} id="break-increment" label="+"/>
+							<Button  onClick = {this.handleBreak} id="break-increment" label="+"/>
 							<ControlLabel id="break-length">{this.state.break}</ControlLabel>
-							<Button onClick = {this.handleClick} id="break-decrement" label="-"/>
+							<Button onClick = {this.handleBreak} id="break-decrement" label="-"/>
 						</div>
 					</div>
 					<div className="set-session">
