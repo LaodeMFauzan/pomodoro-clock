@@ -124,11 +124,20 @@ class App extends Component{
 		return minutes + ':'+seconds;
 	}
 
-	// componentDidUpdate(prevProps, prevState) {
-	// 	if(prevState.is_start !== this.state.is_start){
-	// 		this.runningClock();
-	// 	}
-	// }
+	componentDidUpdate(prevProps, prevState) {
+		if(prevState.is_start !== this.state.is_start){
+			switch(this.state.is_start){
+				case true :
+
+				break;
+				case false :
+					this.setState({
+						session: 25,
+					})
+				break;
+			}
+		}
+	}
 
 	// runningClock = () => {
 	// 	while(this.state.is_start === 'Pause' && this.state.total_count > 0 ){
