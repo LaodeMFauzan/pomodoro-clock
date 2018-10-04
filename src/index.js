@@ -124,32 +124,19 @@ class App extends Component{
 		return minutes + ':'+seconds;
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if(prevState.is_start !== this.state.is_start){
-			switch(this.state.is_start){
-				case true :
-
-				break;
-				case false :
-					this.setState({
-						session: 25,
-					})
-				break;
-			}
-		}
+	componentWillMount = () => {
+		if(this.state.total_count >0){
+			this.myInterval = setInterval(() => {
+			this.setState(prevState => ({
+				total_count: prevState.total_count - 1
+			}))
+		},1000)
+		}	
 	}
 
-	// runningClock = () => {
-	// 	while(this.state.is_start === 'Pause' && this.state.total_count > 0 ){
-	// 		let count_down = Object.assign(this.state.total_count)-1;
-	// 		console.log(count_down);
-	// 		this.setState({
-	// 			total_count : count_down,
-	// 		})	
-	// 	}
-	// }
 
 	render(){
+		const {count} = this.state.total_count;
 		return (
 			<div className="app">
 				<div className="setting-section">
