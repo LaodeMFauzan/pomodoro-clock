@@ -33,6 +33,7 @@ class App extends Component{
 		this.resetTimer = this.resetTimer.bind(this);
 		this.formatClock = this.formatClock.bind(this);
 		this.handleBreak = this.handleBreak.bind(this);
+		this.startClock = this.startClock.bind(this);
 	}
 
 	handleBreak = e =>{
@@ -62,7 +63,7 @@ class App extends Component{
 
 	handleClick = e =>{
 		const value = e.target.getAttribute('id');
-		let session_time,start_state,temp_count;
+		let session_time,temp_count;
 		switch(value){
 			case 'session-increment':
 				session_time = Object.assign(this.state.session)+1;
@@ -89,15 +90,8 @@ class App extends Component{
 				break;
 
 			case 'start_stop':
-				start_state = Object.assign(this.state.is_start);
-				if (this.state.is_start === 'Start') {
-					start_state = 'Pause';
-				} else {
-					start_state = 'Start';	
-				}
-				this.setState({
-					is_start : start_state,
-				})
+				
+				
 				break;
 			default : return;
 		}
@@ -110,6 +104,7 @@ class App extends Component{
 			is_start: 'Start',
 			total_count: 1500,
 		})
+		clearInterval(this.myInterval);
 	}
 
 	formatClock = (total) => {
@@ -124,19 +119,32 @@ class App extends Component{
 		return minutes + ':'+seconds;
 	}
 
-	componentWillMount = () => {
-		if(this.state.total_count >0){
+	startClock = () => {
+		let start_state = Object.assign(this.state.is_start);
+		if (this.state.is_start === 'Start') {
+			start_state = 'Pause';
+			if(this.state.total_count > 0){
 			this.myInterval = setInterval(() => {
 			this.setState(prevState => ({
 				total_count: prevState.total_count - 1
 			}))
-		},1000)
-		}	
+			},1000)
+		}		
+		} else {
+			start_state = 'Start';	
+			clearInterval(this.myInterval);
+		}
+		this.setState({
+				is_start : start_state,
+		})		
+		
 	}
 
+	componentWillUnmount = () => {
+		
+	}
 
 	render(){
-		const {count} = this.state.total_count;
 		return (
 			<div className="app">
 				<div className="setting-section">
@@ -160,7 +168,7 @@ class App extends Component{
 				<div className="display-clock">
 					<ControlLabel id="timer-label">Timer</ControlLabel>
 					<div className="trigger-control">
-						<Button onClick = {this.handleClick} id="start_stop" label={this.state.is_start}/>
+						<Button onClick = {this.startClock} id="start_stop" label={this.state.is_start}/>
 						<ControlLabel id="time-left">{this.formatClock(this.state.total_count)}</ControlLabel>
 						<Button onClick={this.resetTimer} id= "reset" label="Reset"/>
 					</div>
