@@ -25,8 +25,9 @@ class App extends Component{
 			break: 5,
 			session: 25,
 			is_start: 'Start',
-			total_count: 1500,
+			total_count: 1,
 			clock_start: false,
+			is_break: false,
 		}
 
 		this.handleClick = this.handleClick.bind(this);
@@ -121,27 +122,50 @@ class App extends Component{
 
 	startClock = () => {
 		let start_state = Object.assign(this.state.is_start);
+		let break_time = Object.assign(this.state.break) * 60;
 		if (this.state.is_start === 'Start') {
 			start_state = 'Pause';
 			if(this.state.total_count > 0){
-			this.myInterval = setInterval(() => {
-			this.setState(prevState => ({
-				total_count: prevState.total_count - 1
-			}))
-			},1000)
-		}		
+				this.myInterval = setInterval(() => {
+				this.setState(prevState => ({
+					total_count: prevState.total_count - 1,
+				}))
+				},1000)
+			} else {
+				
+			}		
 		} else {
+
 			start_state = 'Start';	
 			clearInterval(this.myInterval);
 		}
 		this.setState({
 				is_start : start_state,
-		})		
-		
+		})	
 	}
 
-	componentWillUnmount = () => {
-		
+	breakTime = (total) => {
+		if(total === 0 && this.state.is_break === false){
+			this.playSound();
+			let is_break_time = true;
+			let break_time = Object.assign(this.state.break) * 60;
+			this.setState({
+				is_break : is_break_time,
+				total_count : break_time,
+			})
+		} 
+	}
+
+	playSound = () => {
+		const beep = document.getElementById("beep");
+		beep.currentTime = 0;
+		beep.play();
+		setTimeout(() => 100);
+	}
+
+	//Coba stop counter pakai componentDidUpdate
+	componentDidUpdate(prevProps, prevState) {
+
 	}
 
 	render(){
@@ -171,6 +195,7 @@ class App extends Component{
 						<Button onClick = {this.startClock} id="start_stop" label={this.state.is_start}/>
 						<ControlLabel id="time-left">{this.formatClock(this.state.total_count)}</ControlLabel>
 						<Button onClick={this.resetTimer} id= "reset" label="Reset"/>
+						<audio src="https://www.soundjay.com/button/beep-02.wav" id="beep"/>
 					</div>
 				</div>
 			</div>
