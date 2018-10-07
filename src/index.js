@@ -22,11 +22,11 @@ class App extends Component{
 	constructor(){
 		super();
 		this.state = {
-			break: 5,
+			break: 1,
 			session: 25,
 			is_start: 'Start',
-			total_count: 1,
-			clock_start: false,
+			total_count: 1500,
+			timer_label:'Session',
 			is_break: false,
 		}
 
@@ -103,7 +103,9 @@ class App extends Component{
 			break: 5,
 			session: 25,
 			is_start: 'Start',
+			timer_label: 'Session',
 			total_count: 1500,
+			is_break: false,
 		})
 		clearInterval(this.myInterval);
 	}
@@ -122,7 +124,6 @@ class App extends Component{
 
 	startClock = () => {
 		let start_state = Object.assign(this.state.is_start);
-		let break_time = Object.assign(this.state.break) * 60;
 		if (this.state.is_start === 'Start') {
 			start_state = 'Pause';
 			if(this.state.total_count > 0){
@@ -145,15 +146,15 @@ class App extends Component{
 	}
 
 	breakTime = (total) => {
-		if(total === 0 && this.state.is_break === false){
-			this.playSound();
-			let is_break_time = true;
-			let break_time = Object.assign(this.state.break) * 60;
-			this.setState({
-				is_break : is_break_time,
-				total_count : break_time,
-			})
-		} 
+		this.playSound();
+		let is_break_time = true;
+		let break_time = Object.assign(this.state.break) * 60;
+		let break_label = 'Break';
+		this.setState({
+			is_break : is_break_time,
+			total_count : break_time,
+			timer_label : break_label,
+		}) 
 	}
 
 	playSound = () => {
@@ -165,7 +166,12 @@ class App extends Component{
 
 	//Coba stop counter pakai componentDidUpdate
 	componentDidUpdate(prevProps, prevState) {
-
+		if(prevState.total_count === 0 && prevState.is_break === false){
+			this.breakTime(this.state.break * 60);
+		} else if(prevState.total_count === 0 ){
+			this.playSound();
+			this.resetTimer();
+		}
 	}
 
 	render(){
@@ -190,7 +196,7 @@ class App extends Component{
 					</div>
 				</div>
 				<div className="display-clock">
-					<ControlLabel id="timer-label">Timer</ControlLabel>
+					<ControlLabel id="timer-label">{this.state.timer_label}</ControlLabel>
 					<div className="trigger-control">
 						<Button onClick = {this.startClock} id="start_stop" label={this.state.is_start}/>
 						<ControlLabel id="time-left">{this.formatClock(this.state.total_count)}</ControlLabel>
