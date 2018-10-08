@@ -25,7 +25,7 @@ class App extends Component{
 			break: 1,
 			session: 25,
 			is_start: 'Start',
-			total_count: 1500,
+			total_count: 1,
 			timer_label:'Session',
 			is_break: false,
 		}
@@ -40,6 +40,7 @@ class App extends Component{
 	handleBreak = e =>{
 		const value = e.target.getAttribute('id');
 		let break_time;
+		if (this.state.is_start !== 'Start') { return; } // when clock is running disable change
 		switch(value){
 			case 'break-increment':
 				break_time = Object.assign(this.state.break)+1;
@@ -65,6 +66,7 @@ class App extends Component{
 	handleClick = e =>{
 		const value = e.target.getAttribute('id');
 		let session_time,temp_count;
+		if (this.state.is_start !== 'Start') { return; }
 		switch(value){
 			case 'session-increment':
 				session_time = Object.assign(this.state.session)+1;
@@ -136,7 +138,6 @@ class App extends Component{
 				
 			}		
 		} else {
-
 			start_state = 'Start';	
 			clearInterval(this.myInterval);
 		}
