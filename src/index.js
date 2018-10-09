@@ -29,8 +29,7 @@ class App extends Component{
 			timer_label:'Session',
 			is_break: false,
 		}
-
-		this.handleClick = this.handleClick.bind(this);
+		this.handleSession = this.handleSession.bind(this);
 		this.resetTimer = this.resetTimer.bind(this);
 		this.formatClock = this.formatClock.bind(this);
 		this.handleBreak = this.handleBreak.bind(this);
@@ -63,7 +62,7 @@ class App extends Component{
 		})
 	}
 
-	handleClick = e =>{
+	handleSession = e =>{
 		const value = e.target.getAttribute('id');
 		let session_time,temp_count;
 		if (this.state.is_start !== 'Start') { return; }
@@ -160,24 +159,25 @@ class App extends Component{
 
 	playSound = () => {
 		const beep = document.getElementById("beep");
-		beep.currentTime = 0;
 		beep.play();
-		setTimeout(() => 100);
 	}
 
 	//Coba stop counter pakai componentDidUpdate
 	componentDidUpdate(prevProps, prevState) {
-		if(prevState.total_count === 0 && prevState.is_break === false){
-			this.breakTime(this.state.break * 60);
-		} else if(prevState.total_count === 0 ){
-			this.playSound();
-			this.resetTimer();
+		if(prevState.total_count === 0 ){
+			if (prevState.is_break === false) {
+				this.breakTime(this.state.break * 60);
+			} else {
+				this.playSound();
+				this.resetTimer();
+			}
 		}
 	}
 
 	render(){
 		return (
 			<div className="app">
+				<h1> Simple Pomodoro Clock </h1>
 				<div className="setting-section">
 					<div className="set-break">
 						<ControlLabel id="break-label">Break</ControlLabel>
@@ -190,9 +190,9 @@ class App extends Component{
 					<div className="set-session">
 						<ControlLabel id="session-label">Work</ControlLabel>
 						<div className="session-control">
-							<Button onClick = {this.handleClick} id="session-increment" label="+"/>
+							<Button onClick = {this.handleSession} id="session-increment" label="+"/>
 							<ControlLabel id="session-length">{this.state.session}</ControlLabel>
-							<Button onClick = {this.handleClick} id="session-decrement" label="-"/>	
+							<Button onClick = {this.handleSession} id="session-decrement" label="-"/>	
 						</div>
 					</div>
 				</div>
